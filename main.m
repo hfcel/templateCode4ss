@@ -16,17 +16,20 @@ winSize=[20,39];
 rawData=rawData-mean(rawData);
 figure
 plot(1:30000,rawData(1,1:30000));
+title('raw data');
+
 figure
 [b,a]=butter(3,300/sf/2,'high');
 data=filter(b,a,rawData);
 plot(1:30000,data(1,1:30000));
-
+title('filtered data');
 %detection
 th=thFac*std(data);
 figure
 hold on;
 plot(1:6e4,data(1,1:6e4));
 plot(1:6e4,linspace(th,th,6e4));
+title('filtered data with threshold');
 pos=find(data>th);
 pos=pos(pos>winSize(1));
 pos=pos(diff(pos)>1);
@@ -47,6 +50,7 @@ idx=randperm(size(spks,1),100);
 tmpspks=spks(idx,:);
 figure
 plot(1:60,tmpspks);
+title('random seleted 100 spikes');
 %% preprocess
 %center
 spks=spks';
@@ -81,4 +85,5 @@ for i=1:nClus
 end
 xlabel('pc1');
 ylabel('pc2');
+title('first 2 pcs of clustering result');
 hold off;
